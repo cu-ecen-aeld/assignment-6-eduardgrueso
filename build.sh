@@ -34,4 +34,4 @@ else
 fi
 
 set -e
-bitbake -k core-image-aesd
+bitbake core-image-aesd
