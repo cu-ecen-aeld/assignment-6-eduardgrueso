@@ -19,8 +19,11 @@ jobs:
           - name: Instalar git-lfs
             run: |
                 sudo apt-get update
-                sudo apt-get install git-lfs
+                sudo apt-get install -y git-lfs
+                sudo ln -s /usr/bin/git-lfs /usr/local/bin/git-lfs || true
+                which git-lfs
                 git lfs install
+                git lfs version
           - name: Run build
             timeout-minutes: 600
             run: |
