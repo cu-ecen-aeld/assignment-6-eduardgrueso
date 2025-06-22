@@ -16,20 +16,6 @@ jobs:
           - uses: webfactory/ssh-agent@v0.5.4
             with:
                  ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          - name: Debug SSH agent and Git access
-            run: |
-              echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
-              ssh-add -l || true
-              echo "Attempting manual git ls-remote..."
-              git ls-remote git@github.com:cu-ecen-aeld/assignments-3-and-later-eduardgrueso.git || true
-          - name: Instalar git-lfs
-            run: |
-                sudo apt-get update
-                sudo apt-get install -y git-lfs
-                sudo ln -s /usr/bin/git-lfs /usr/local/bin/git-lfs || true
-                which git-lfs
-                git lfs install
-                git lfs version
           - name: Run build
             timeout-minutes: 600
             run: |
@@ -39,7 +25,7 @@ jobs:
                  -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
                  cuaesd/aesd-autotest:24-assignment6-yocto \
                  --workdir=${GITHUB_WORKSPACE} \
-                 ./build.sh
+                 bash -c "apt-get update && apt-get install -y git-lfs && git lfs install && ./build.sh"
           - name: Cleanup
             if: always()
             run: |
