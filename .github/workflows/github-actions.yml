@@ -16,12 +16,6 @@ jobs:
           - uses: webfactory/ssh-agent@v0.5.4
             with:
                  ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          - name: Install git-lfs in container
-            run: |
-              docker run --rm \
-                -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
-                cuaesd/aesd-autotest:24-assignment6-yocto \
-                bash -c "apt-get update && apt-get install -y git-lfs && git lfs install"
           - name: Run build
             timeout-minutes: 600
             run: |
