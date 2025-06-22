@@ -25,7 +25,7 @@ jobs:
                  -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
                  cuaesd/aesd-autotest:24-assignment6-yocto \
                  --workdir=${GITHUB_WORKSPACE} \
-                 bash -c "apt-get update && apt-get install -y git-lfs && git lfs install && ./build.sh"
+                 bash -c "sudo apt-get update && sudo apt-get install -y git-lfs && git lfs install && ./build.sh"
           - name: Cleanup
             if: always()
             run: |
