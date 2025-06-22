@@ -16,12 +16,8 @@ jobs:
           - uses: webfactory/ssh-agent@v0.5.4
             with:
                  ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          - name: Setup SSH key
-            run: |
-              mkdir -p ~/.ssh
-              echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-              chmod 600 ~/.ssh/id_rsa
-              ssh-keyscan github.com >> ~/.ssh/known_hosts
+          - name: Mostrar llaves SSH cargadas
+            run: ssh-add -l
           - name: Instalar git-lfs
             run: |
                 sudo apt-get update
