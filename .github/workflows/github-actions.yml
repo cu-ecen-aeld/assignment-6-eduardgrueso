@@ -20,13 +20,13 @@ jobs:
             timeout-minutes: 600
             run: |
                docker run --rm \
-                 --user 0 \
+                 --user root \
                  -v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent \
                  -e GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" \
                  -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
                  cuaesd/aesd-autotest:24-assignment6-yocto \
                  --workdir=${GITHUB_WORKSPACE} \
-                 bash -c "apt-get update && apt-get install -y git-lfs && git lfs install && ./build.sh"
+                 bash -c "sudo apt update && sudo apt install -y git-lfs && git lfs install && ./build.sh"
           - name: Cleanup
             if: always()
             run: |
