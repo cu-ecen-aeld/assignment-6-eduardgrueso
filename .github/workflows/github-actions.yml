@@ -19,18 +19,19 @@ jobs:
           - name: Run build
             timeout-minutes: 600
             run: |
-                  docker run --rm \
-                    -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
-                    cuaesd/aesd-autotest:24-assignment6-yocto \
-                    /bin/bash -c "
-                      mkdir -p /root/.ssh &&
-                      echo '${{ secrets.SSH_PRIVATE_KEY }}' > /root/.ssh/id_rsa &&
-                      chmod 600 /root/.ssh/id_rsa &&
-                      ssh-keyscan github.com >> /root/.ssh/known_hosts &&
-                      export GIT_SSH_COMMAND='ssh -i /root/.ssh/id_rsa -o StrictHostKeyChecking=no' &&
-                      cd ${GITHUB_WORKSPACE} &&
-                      ./build.sh
-                    "
+               docker run --rm \
+                -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
+                cuaesd/aesd-autotest:24-assignment6-yocto \
+                /bin/bash -c "
+                  export HOME_DIR=\$HOME &&
+                  mkdir -p \$HOME_DIR/.ssh &&
+                  echo '${{ secrets.SSH_PRIVATE_KEY }}' > \$HOME_DIR/.ssh/id_rsa &&
+                  chmod 600 \$HOME_DIR/.ssh/id_rsa &&
+                  ssh-keyscan github.com >> \$HOME_DIR/.ssh/known_hosts &&
+                  export GIT_SSH_COMMAND='ssh -i \$HOME_DIR/.ssh/id_rsa -o StrictHostKeyChecking=no' &&
+                  cd ${GITHUB_WORKSPACE} &&
+                  ./build.sh
+                "
           - name: Cleanup
             if: always()
             run: |
