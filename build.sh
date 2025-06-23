@@ -6,6 +6,21 @@ git submodule init
 git submodule sync
 git submodule update
 
+set -e
+
+# 💡 Asegura que el agente esté disponible
+export SSH_AUTH_SOCK=/ssh-agent
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+# 💡 Verifica que ssh funciona
+echo "Probando acceso SSH..."
+ssh -T git@github.com || echo "SSH no interactivo, esto es esperado"
+
+# 💡 Configura known_hosts para evitar prompts
+mkdir -p ~/.ssh
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+
 # local.conf won't exist until this step on first execution
 source poky/oe-init-build-env
 
